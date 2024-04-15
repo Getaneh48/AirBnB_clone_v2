@@ -53,7 +53,7 @@ class HBNBCommand(cmd.Cmd):
             # isolate <class name>
             _cls = pline[:pline.find('.')]
 
-            # isolate and validate <command>
+            # isolate and validate < command >
             _cmd = pline[pline.find('.') + 1:pline.find('(')]
             if _cmd not in HBNBCommand.dot_cmds:
                 raise Exception
@@ -73,7 +73,7 @@ class HBNBCommand(cmd.Cmd):
                 pline = pline[2].strip()  # pline is now str
                 if pline:
                     # check for *args or **kwargs
-                    if pline[0] is '{' and pline[-1] is'}'\
+                    if pline[0] is '{' and pline[-1] is '}'\
                             and type(eval(pline)) is dict:
                         _args = pline
                     else:
@@ -115,16 +115,39 @@ class HBNBCommand(cmd.Cmd):
 
     def do_create(self, args):
         """ Create an object of any class"""
-        if not args:
+
+        from datetime import datetime
+
+        args_list = args.split(" ")
+        cls_name = args_list[0]
+
+        if not args or not cls_name:
             print("** class name missing **")
             return
-        elif args not in HBNBCommand.classes:
+        elif cls_name not in HBNBCommand.classes:
             print("** class doesn't exist **")
             return
-        new_instance = HBNBCommand.classes[args]()
-        storage.save()
-        print(new_instance.id)
-        storage.save()
+
+        args_list = args_list[1:]
+        args_dict = {}
+
+        for val in args_list:
+            arg = val.split("=")
+            if len(arg) == 2:
+                if self.is_int(arg[1]):
+                    arg[1] = int(arg[1])
+                elif self.is_float(arg[1]):
+                    arg[1] = float(arg[1])
+                else:
+                    if arg[1][0] == '"' and arg[1][len(arg[1]) - 1] == '"':
+                        arg[1] = arg[1].replace('_', ' ')
+                        arg[1] = arg[1].replace('"', "")
+
+                args_dict[arg[0]] = arg[1]
+        instance = self.classes[cls_name](**args_dict)
+        storage.new(instance)  # store new object
+        instance.save()  # save storage to file
+        print(instance.id)  # print id of created object class
 
     def help_create(self):
         """ Help information for the create method """
@@ -187,7 +210,7 @@ class HBNBCommand(cmd.Cmd):
         key = c_name + "." + c_id
 
         try:
-            del(storage.all()[key])
+            del (storage.all()[key])
             storage.save()
         except KeyError:
             print("** no instance found **")
@@ -319,6 +342,24 @@ class HBNBCommand(cmd.Cmd):
         """ Help information for the update class """
         print("Updates an object with new information")
         print("Usage: update <className> <id> <attName> <attVal>\n")
+
+    @staticmethod
+    def is_int(n):
+        """ checks if integer"""
+        try:
+            int(n)
+            return True
+        except ValueError:
+            return False
+
+    @staticmethod
+    def is_float(n):
+        try:
+            float(n)
+            return True
+        except ValueError:
+            return False
+
 
 if __name__ == "__main__":
     HBNBCommand().cmdloop()
