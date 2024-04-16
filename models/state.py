@@ -25,6 +25,6 @@ class State(BaseModel, Base):
         city_instances = []
         for model in all_models():
             for obj in model.values():
-                if type(obj) == City and obj.state_id == self.id:
+                if type(obj) is City and obj.state_id == self.id:
                     city_instances.append(obj)
         return (city_instances)
