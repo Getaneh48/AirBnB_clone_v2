@@ -38,7 +38,6 @@ class FileStorage:
                     dkey = key
                     break
             if dkey:
-                print(f"key: {dkey}")
                 del self.all()[dkey]
                 self.save()
 
