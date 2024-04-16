@@ -29,17 +29,9 @@ class FileStorage:
         deletes obj from __objects if it’s inside - if obj is equal to None,
         the method should not do anything
         """
-
-        if obj is not None:
-            dkey = None
-            for key in FileStorage.__objects.keys():
-                print(obj.__class__.__name__)
-                if key == obj.__class__.__name__ + '.' + obj.id:
-                    dkey = key
-                    break
-            if dkey:
-                del self.all()[dkey]
-                self.save()
+        if obj:
+            key = "{}.{}".format(type(obj).__name__, obj.id)
+            del self.__objects[key]
 
     def save(self):
         """Saves storage dictionary to file"""
