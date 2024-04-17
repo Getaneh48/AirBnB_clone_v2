@@ -44,8 +44,8 @@ class DBStorage:
         """
 
         objects = {}
-        all_class_models = {'State': State, 'City': City}
-# 'User': User, 'Place': Place,
+        all_class_models = {'State': State, 'City': City,
+                            'User': User, 'Place': Place}
 # 'Review': Review, 'Amenity': Amenity}
 
         if cls:
