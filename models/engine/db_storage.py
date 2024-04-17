@@ -46,8 +46,7 @@ class DBStorage:
         objects = {}
         all_class_models = {'State': State, 'City': City,
                             'User': User, 'Place': Place,
-                            'Review': Review}
-# 'Review': Review, 'Amenity': Amenity}
+                            'Review': Review, 'Amenity': Amenity}
 
         if cls:
             for row in self.__session.query(cls).all():
