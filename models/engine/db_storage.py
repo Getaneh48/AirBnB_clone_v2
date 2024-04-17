@@ -44,9 +44,9 @@ class DBStorage:
         """
 
         objects = {}
-        all_class_models = {'State': State, 'City': City,
-                            'User': User, 'Place': Place,
-                            'Review': Review, 'Amenity': Amenity}
+        all_class_models = {'State': State, 'City': City}
+# 'User': User, 'Place': Place,
+# 'Review': Review, 'Amenity': Amenity}
 
         if cls:
             for row in self.__session.query(cls).all():
@@ -56,8 +56,8 @@ class DBStorage:
         else:
             for key, val in all_class_models.items():
                 for row in self.__session.query(val):
-                    objects.update({'{}.{}'.
-                                    format(type(row).__name__, row.id,): row})
+                    objects.update({f'{type(row).__name__}.{row.id}': row})
+
         return objects
 
     def new(self, obj):
@@ -85,9 +85,10 @@ class DBStorage:
         the session
         """
         Base.metadata.create_all(self.__engine)
-        smaker = sessionmaker(bind=self.__engine, expire_on_commit=False)
-        Session = scoped_session(smaker)
-        self.__session = Session()
+        self.__session = scoped_session(sessionmaker(bind=self.__engine))
+        # smaker = sessionmaker(bind=self.__engine, expire_on_commit=False)
+        # Session = scoped_session(smaker)
+        # self.__session = Session()
 
     def close(self):
         """

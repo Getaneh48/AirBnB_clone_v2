@@ -120,7 +120,6 @@ class HBNBCommand(cmd.Cmd):
 
         args_list = args.split(" ")
         cls_name = args_list[0]
-        print(cls_name)
         if not args or not cls_name:
             print("** class name missing **")
             return
@@ -144,11 +143,9 @@ class HBNBCommand(cmd.Cmd):
                         arg[1] = arg[1].replace('"', "")
 
                 args_dict[arg[0]] = arg[1]
-        print(args_dict)
         instance = self.classes[cls_name](**args_dict)
-        print(instance)
         storage.new(instance)  # store new object
-        instance.save()  # save storage to file
+        storage.save()  # save storage to file
         print(instance.id)  # print id of created object class
 
     def help_create(self):
@@ -222,23 +219,26 @@ class HBNBCommand(cmd.Cmd):
         print("Destroys an individual instance of a class")
         print("[Usage]: destroy <className> <objectId>\n")
 
-    def do_all(self, args):
+    def do_all(self, line):
         """ Shows all objects, or all objects of a class"""
-        print_list = []
-
-        if args:
-            args = args.split(' ')[0]  # remove possible trailing args
-            if args not in HBNBCommand.classes:
-                print("** class doesn't exist **")
-                return
-            for k, v in storage._FileStorage__objects.items():
-                if k.split('.')[0] == args:
-                    print_list.append(str(v))
-        else:
-            for k, v in storage._FileStorage__objects.items():
-                print_list.append(str(v))
-
-        print(print_list)
+        objects = storage.all()
+        my_list = []
+        if not line:
+            for key in objects:
+                my_list.append(objects[key])
+            print(my_list)
+            return
+        try:
+            args = line.split(" ")
+            if args[0] not in self.classes:
+                raise NameError()
+            for key in objects:
+                name = key.split('.')
+                if name[0] == args[0]:
+                    my_list.append(objects[key])
+            print(my_list)
+        except NameError:
+            print("** class doesn't exist **")
 
     def help_all(self):
         """ Help information for the all command """
