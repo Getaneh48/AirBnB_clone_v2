@@ -235,7 +235,13 @@ class HBNBCommand(cmd.Cmd):
             for key in objects:
                 name = key.split('.')
                 if name[0] == args[0]:
-                    my_list.append(objects[key])
+                    cls_name = name[0]
+                    obj_dict = objects[key].__dict__
+                    if '_sa_instance_state' in obj_dict.keys():
+                        del obj_dict['_sa_instance_state']
+                    f_obj = '[{}] ({}) {}'.format(cls_name,
+                                                  objects[key].id, obj_dict)
+                    my_list.append(f_obj)
             print(my_list)
         except NameError:
             print("** class doesn't exist **")
