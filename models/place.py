@@ -4,6 +4,7 @@ from os import environ
 from models.base_model import BaseModel, Base
 from sqlalchemy import String, Column, ForeignKey, Integer, Float, Table
 from sqlalchemy.orm import relationship
+from models.amenity import Amenity
 
 place_amenity = Table('place_amenity', Base.metadata,
                       Column('place_id', String(60),
@@ -53,12 +54,12 @@ class Place(BaseModel, Base):
             returns the list of Amenity instances based on the attribute
             amenity_ids that contains all Amenity.id linked to the Place
             """
-            amenities = []
+            filtered_amenities = []
             all_amenities = models.storage.all(Amenity)
             for key, obj in all_amenities.items():
                 if key in self.amentiy_ids:
-                    amenities.append(obj)
-            return amenities
+                    filtered_amenities.append(obj)
+            return filtered_amenities
 
         @amenities.setter
         def amenities(self, obj=None):
