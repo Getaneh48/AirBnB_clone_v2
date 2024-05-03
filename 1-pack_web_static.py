@@ -4,12 +4,12 @@
  web_static folder of the AirBnB Clone repo, using the function do_pack
 """
 
-import os
+from fabric.api import *
+from os.path import exists
 from datetime import datetime
-from fabric.api import local, runs_once
+from os.path import isdir
 
 
-@runs_once
 def do_pack():
     """
     generates a tgz archive from the web_static folder
