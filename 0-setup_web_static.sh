@@ -5,9 +5,6 @@ if ! [ -x "$(command -v nginx)" ]; then
 sudo apt-get update
 sudo apt-get -y install nginx
 fi
-sudo apt-get update
-sudo apt-get -y install nginx
-
 sudo mkdir -p /data/web_static/shared/ /data/web_static/releases/test/
 sudo echo "<html>
   <head>
