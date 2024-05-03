@@ -10,10 +10,13 @@ sudo echo "<html>
   <head>
   </head>
   <body>
-	Holberton School
+        Holberton School
   </body>
 </html>" | sudo tee /data/web_static/releases/test/index.html
 sudo chown -R ubuntu:ubuntu /data
 sudo ln -sf /data/web_static/releases/test/ /data/web_static/current
+sudo sed -i '/hbnb_static/, +2d' /etc/nginx/sites-available/default
+sudo sed -i '/hbnb_static/, +2d' /etc/nginx/sites-enabled/default
 sudo sed -i '54i \\tlocation \/hbnb_static {\n\t\t alias /data/web_static/current;\n\t}' /etc/nginx/sites-available/default
+sudo sed -i '54i \\tlocation \/hbnb_static {\n\t\t alias /data/web_static/current;\n\t}' /etc/nginx/sites-enabled/default
 sudo service nginx restart
