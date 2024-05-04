@@ -56,6 +56,6 @@ def deploy():
     servers.
     """
     path = do_pack()
-    if path:
+    if path is not None:
         return do_deploy(path)
     return False
