@@ -57,5 +57,5 @@ def deploy():
     """
     path = do_pack()
     if path:
-        do_deploy(path)
+        return do_deploy(path)
     return False
