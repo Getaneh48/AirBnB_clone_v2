@@ -55,7 +55,13 @@ def deploy():
     A function to archive and deploy the web_static folder to a remot
     servers.
     """
-    path = do_pack()
-    if path is not None:
-        return do_deploy(path)
-    return False
+    path = ''
+    if env.host_string == env.hosts[0]:
+        path = do_pack()
+        if path is not None:
+            return do_deploy(path)
+        else:
+            return False
+    else:
+        path = local('basename "$(ls versions)" | tail -n 1', capture=True)
+        return do_deploy('versions/'+path)
