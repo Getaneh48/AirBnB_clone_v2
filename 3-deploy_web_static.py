@@ -48,3 +48,14 @@ def do_pack():
         return (file_name)
     except error as err:
         return None
+
+
+def deploy():
+    """
+    A function to archive and deploy the web_static folder to a remot
+    servers.
+    """
+    path = do_pack()
+    if path:
+        do_deploy(path)
+    return False
