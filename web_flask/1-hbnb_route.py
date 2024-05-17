@@ -12,7 +12,9 @@ def index():
     """landing url"""
     return "Hello HBNB!"
 
-@app.route('/hbnb'):
+
+@app.route('/hbnb')
+def hbnb():
     """ renders the route /hbnb """
     return "HBNB"
 
