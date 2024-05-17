@@ -42,14 +42,10 @@ def is_number(n):
         abort(404)
 
 
-@app.route('/number_template/<n>')
+@app.route('/number_template/<int:n>')
 def number_template(n):
     """ Checks if n is a number and renders a template """
-    try:
-        n = int(n)
-        return render_template('5-number.html', n=n)
-    except ValueError as err:
-        abort(404)
+    return render_template('5-number.html', n=n)
 
 
 if __name__ == '__main__':
