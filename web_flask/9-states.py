@@ -20,11 +20,12 @@ def states():
     """lists cities by state"""
     all_states = storage.all(State)
     states = sorted(all_states.values(), key=lambda state: state.name)
-    return render_template('9-states.html', states=states, s_id = None)
+    return render_template('9-states.html', states=states, s_id=None)
 
 
 @app.route('/states/<id>')
 def state_by_id(id):
+    """get state by an id"""
     found_state = None
     all_states = storage.all(State)
     states = sorted(all_states.values(), key=lambda state: state.name)
@@ -32,7 +33,7 @@ def state_by_id(id):
         if state.id == id:
             found_state = state
             break
-    return render_template('9-states.html', state=found_state, s_id = id)
+    return render_template('9-states.html', state=found_state, s_id=id)
 
 
 if __name__ == '__main__':
