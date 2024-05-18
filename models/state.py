@@ -22,7 +22,7 @@ class State(BaseModel, Base):
             equals to the current State.id
             """
 
-            all_cities = models.storage.all(City)
+            all_cities = models.storage.all(models.City)
             city_instances = []
             for city in all_cities.values():
                 if city.state_id == self.id:
